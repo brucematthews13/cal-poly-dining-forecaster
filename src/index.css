@@ -453,69 +453,6 @@ h4 { font-size: 1.1rem; }
   color: var(--text-muted) !important;
 }
 
-/* ============ Responsive ============ */
-
-@media (max-width: 1024px) {
-  .app-main {
-    flex-direction: column;
-  }
-  .app-sidebar {
-    width: 100%;
-    height: auto;
-    max-height: none;
-    border-right: none;
-    border-bottom: 1px solid var(--glass-border);
-    overflow: visible;
-    padding: var(--space-sm);
-  }
-  .sidebar-controls {
-    margin-bottom: var(--space-sm);
-  }
-  .sidebar-list {
-    flex-direction: row;
-    overflow-x: auto;
-    padding-bottom: 4px;
-  }
-  .location-card {
-    flex: 0 0 200px;
-  }
-  .app-charts {
-    height: 240px;
-  }
-}
-
-@media (max-width: 640px) {
-  :root {
-    --header-height: auto;
-  }
-  .app-header {
-    flex-wrap: wrap;
-    gap: var(--space-sm);
-    padding: var(--space-sm) var(--space-md);
-  }
-  .app-title h1 {
-    font-size: 1rem;
-  }
-  .app-subtitle {
-    display: none;
-  }
-  .app-header-right {
-    width: 100%;
-    justify-content: space-between;
-  }
-  .app-clock {
-    font-size: 0.72rem;
-  }
-  .app-charts {
-    flex-direction: column;
-    height: auto;
-    max-height: 300px;
-  }
-  .app-map {
-    min-height: 260px;
-  }
-}
-
 /* ============ Header ============ */
 
 .app-title {
@@ -689,6 +626,8 @@ h4 { font-size: 1.1rem; }
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 6px;
   gap: var(--space-sm);
 }
 
@@ -718,6 +657,7 @@ h4 { font-size: 1.1rem; }
 
 .day-tabs {
   display: flex;
+  flex-wrap: wrap;
   gap: 2px;
 }
 
@@ -1016,4 +956,67 @@ h4 { font-size: 1.1rem; }
 .emoji-label {
   font-size: 0.6rem;
   color: var(--text-muted);
+}
+
+/* ============ Responsive ============ */
+
+@media (max-width: 1024px) {
+  .app-main {
+    flex-direction: column;
+  }
+  .app-sidebar {
+    width: 100%;
+    height: auto;
+    max-height: none;
+    border-right: none;
+    border-bottom: 1px solid var(--glass-border);
+    overflow: visible;
+    padding: var(--space-sm);
+  }
+  .sidebar-controls {
+    margin-bottom: var(--space-sm);
+  }
+  .sidebar-list {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .location-card {
+    flex: 0 0 200px;
+  }
+  .app-charts {
+    height: 240px;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --header-height: auto;
+  }
+  .app-header {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+  }
+  .app-title h1 {
+    font-size: 1rem;
+  }
+  .app-subtitle {
+    display: none;
+  }
+  .app-header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .app-clock {
+    font-size: 0.72rem;
+  }
+  .app-charts {
+    flex-direction: column;
+    height: auto;
+    max-height: 300px;
+  }
+  .app-map {
+    min-height: 260px;
+  }
 }
