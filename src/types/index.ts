@@ -3,7 +3,7 @@
 export interface DiningLocation {
   id: number;
   name: string;
-  type: 'dining_hall' | 'cafe' | 'market' | 'quick_service' | 'food_hall' | 'buffet' | 'grocery';
+  type: 'dining_hall' | 'cafe' | 'market' | 'quick_service' | 'food_hall';
   building: string | null;
   lat: number;
   lng: number;

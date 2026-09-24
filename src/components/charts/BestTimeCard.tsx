@@ -1,9 +1,10 @@
+import { memo } from 'react';
 import { CheckCircle2, XCircle } from 'lucide-react';
 import type { BestTimeResult } from '../../types';
 import { getLevelColor } from '../../types';
 import { Skeleton } from '../ui/Skeleton';
 
-export function BestTimeCard({ bestTime, loading }: { bestTime: BestTimeResult; loading: boolean }) {
+export const BestTimeCard = memo(function BestTimeCard({ bestTime, loading }: { bestTime: BestTimeResult; loading: boolean }) {
   return (
     <div className="glass-card chart-card best-time-card">
       <div className="chart-card-header">
@@ -39,4 +40,4 @@ export function BestTimeCard({ bestTime, loading }: { bestTime: BestTimeResult; 
       )}
     </div>
   );
-}
+});

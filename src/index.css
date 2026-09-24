@@ -423,6 +423,10 @@ h4 { font-size: 1.1rem; }
   filter: invert(1) hue-rotate(180deg) brightness(0.92) contrast(0.9) saturate(0.7);
 }
 
+.leaflet-interactive {
+  animation: bounce-in 0.4s var(--ease-spring) both;
+}
+
 .leaflet-control-zoom a {
   background: var(--bg-elevated) !important;
   color: var(--text-primary) !important;
@@ -1019,4 +1023,61 @@ h4 { font-size: 1.1rem; }
   .app-map {
     min-height: 260px;
   }
+}
+
+/* ============ Splash screen ============ */
+
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  background: var(--bg-primary);
+}
+
+.splash-emoji {
+  font-size: 3rem;
+}
+
+.splash-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.splash-subtitle {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ============ Error boundary ============ */
+
+.error-boundary {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+  background: var(--bg-primary);
+}
+
+.error-boundary-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-2xl);
+  max-width: 360px;
+  text-align: center;
+}
+
+.error-boundary-card p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
 }

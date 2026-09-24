@@ -39,6 +39,10 @@ function isLocationOpen(db, locationId) {
   `).get(locationId, dayOfWeek);
 
   if (!hours) return false;
+  if (hours.close_time <= hours.open_time) {
+    // Hours wrap past midnight (e.g. 07:00 - 02:00)
+    return currentTime >= hours.open_time || currentTime < hours.close_time;
+  }
   return currentTime >= hours.open_time && currentTime < hours.close_time;
 }
 
@@ -158,6 +162,11 @@ app.post('/api/report', (req, res) => {
   `).run(location_id, now.getDay(), now.getHours());
 
   res.json({ success: true, message: 'Thanks for helping fellow Mustangs! 🐴' });
+});
+
+// ============ 404 ============
+app.use('/api', (req, res) => {
+  res.status(404).json({ error: 'Not found', message: `No route ${req.method} ${req.originalUrl}` });
 });
 
 // ============ START ============

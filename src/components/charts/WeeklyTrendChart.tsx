@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { getLevelColor } from '../../types';
 import type { WeeklyTrend } from '../../types';
@@ -19,7 +20,7 @@ function ChartTooltip({ active, payload }: { active?: boolean; payload?: { paylo
   );
 }
 
-export function WeeklyTrendChart({ weekly, loading }: WeeklyTrendChartProps) {
+export const WeeklyTrendChart = memo(function WeeklyTrendChart({ weekly, loading }: WeeklyTrendChartProps) {
   const today = new Date().getDay();
 
   return (
@@ -56,4 +57,4 @@ export function WeeklyTrendChart({ weekly, loading }: WeeklyTrendChartProps) {
       )}
     </div>
   );
-}
+});

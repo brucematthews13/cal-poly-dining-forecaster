@@ -1,6 +1,6 @@
-import type { ComponentType } from 'react';
+import { memo, type ComponentType } from 'react';
 import { motion } from 'framer-motion';
-import { Coffee, ShoppingBasket, Sandwich, Store, ChefHat, ShoppingCart, UtensilsCrossed } from 'lucide-react';
+import { Coffee, ShoppingBasket, Sandwich, Store, UtensilsCrossed } from 'lucide-react';
 import type { LocationOverview } from '../../types';
 import { getLevelColor } from '../../types';
 
@@ -10,8 +10,6 @@ const TYPE_ICONS: Record<string, ComponentType<{ size?: number }>> = {
   market: ShoppingBasket,
   quick_service: Sandwich,
   food_hall: Store,
-  buffet: ChefHat,
-  grocery: ShoppingCart,
 };
 
 interface LocationCardProps {
@@ -20,7 +18,7 @@ interface LocationCardProps {
   onSelect: (id: number) => void;
 }
 
-export function LocationCard({ location, selected, onSelect }: LocationCardProps) {
+export const LocationCard = memo(function LocationCard({ location, selected, onSelect }: LocationCardProps) {
   const Icon = TYPE_ICONS[location.type] ?? UtensilsCrossed;
   const color = getLevelColor(location.current_level);
 
@@ -29,6 +27,7 @@ export function LocationCard({ location, selected, onSelect }: LocationCardProps
       type="button"
       className={`location-card glass-card ${selected ? 'location-card-selected' : ''}`}
       onClick={() => onSelect(location.id)}
+      whileHover={{ y: -2 }}
       whileTap={{ scale: 0.98 }}
       layout
     >
@@ -46,4 +45,4 @@ export function LocationCard({ location, selected, onSelect }: LocationCardProps
       />
     </motion.button>
   );
-}
+});

@@ -20,8 +20,6 @@ const TYPE_FILTERS: { value: string; label: string }[] = [
   { value: 'food_hall', label: 'Food Halls' },
   { value: 'quick_service', label: 'Quick Service' },
   { value: 'market', label: 'Market' },
-  { value: 'grocery', label: 'Grocery' },
-  { value: 'buffet', label: 'Buffet' },
 ];
 
 export function LocationSidebar({ locations, loading, selectedId, onSelect }: LocationSidebarProps) {

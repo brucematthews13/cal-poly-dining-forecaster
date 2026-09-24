@@ -1,9 +1,19 @@
-import { motion } from 'framer-motion';
+import { useEffect } from 'react';
+import { motion, animate, useMotionValue, useTransform } from 'framer-motion';
 import { getLevelColor, LEVEL_LABELS } from '../../types';
 
 interface BusynessGaugeProps {
   level: number;
   size?: number;
+}
+
+function useCountUp(target: number) {
+  const value = useMotionValue(target);
+  useEffect(() => {
+    const controls = animate(value, target, { duration: 0.6, ease: [0.16, 1, 0.3, 1] });
+    return controls.stop;
+  }, [target, value]);
+  return value;
 }
 
 export function BusynessGauge({ level, size = 88 }: BusynessGaugeProps) {
@@ -12,6 +22,8 @@ export function BusynessGauge({ level, size = 88 }: BusynessGaugeProps) {
   const pct = clamped / 5;
   const radius = (size - 10) / 2;
   const circumference = 2 * Math.PI * radius;
+  const animatedLevel = useCountUp(clamped);
+  const displayLevel = useTransform(animatedLevel, (v) => v.toFixed(1));
 
   return (
     <div className="gauge" style={{ width: size, height: size }}>
@@ -41,7 +53,7 @@ export function BusynessGauge({ level, size = 88 }: BusynessGaugeProps) {
         />
       </svg>
       <div className="gauge-label">
-        <span className="gauge-level" style={{ color }}>{clamped.toFixed(1)}</span>
+        <motion.span className="gauge-level" style={{ color }}>{displayLevel}</motion.span>
         <span className="gauge-text">{LEVEL_LABELS[Math.round(clamped)]}</span>
       </div>
     </div>

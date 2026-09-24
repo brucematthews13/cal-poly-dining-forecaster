@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Area, AreaChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { DAY_NAMES_SHORT, getLevelColor } from '../../types';
 import type { HourlyForecast } from '../../types';
@@ -22,7 +23,7 @@ function ChartTooltip({ active, payload }: { active?: boolean; payload?: { paylo
   );
 }
 
-export function HourlyForecastChart({ forecast, loading, selectedDay, onDayChange }: HourlyForecastChartProps) {
+export const HourlyForecastChart = memo(function HourlyForecastChart({ forecast, loading, selectedDay, onDayChange }: HourlyForecastChartProps) {
   const now = new Date();
   const currentHourLabel = forecast.find((f) => f.hour === now.getHours())?.label;
 
@@ -30,11 +31,13 @@ export function HourlyForecastChart({ forecast, loading, selectedDay, onDayChang
     <div className="glass-card chart-card">
       <div className="chart-card-header">
         <h4>Hourly Forecast</h4>
-        <div className="day-tabs">
+        <div className="day-tabs" role="tablist" aria-label="Day of week">
           {DAY_NAMES_SHORT.map((d, i) => (
             <button
               key={d}
               type="button"
+              role="tab"
+              aria-selected={i === selectedDay}
               className={`day-tab ${i === selectedDay ? 'day-tab-active' : ''}`}
               onClick={() => onDayChange(i)}
             >
@@ -77,4 +80,4 @@ export function HourlyForecastChart({ forecast, loading, selectedDay, onDayChang
       )}
     </div>
   );
-}
+});

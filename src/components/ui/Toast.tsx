@@ -11,6 +11,8 @@ export function Toast({ message, onDismiss }: ToastProps) {
     <AnimatePresence>
       {message && (
         <motion.div
+          role="status"
+          aria-live="polite"
           className="toast glass-card"
           initial={{ opacity: 0, y: 20, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}

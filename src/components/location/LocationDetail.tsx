@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { MapPin } from 'lucide-react';
 import type { LocationOverview } from '../../types';
 import { BusynessGauge } from './BusynessGauge';
@@ -5,7 +6,7 @@ import { WaitTimeEstimate } from './WaitTimeEstimate';
 import { OpenBadge } from '../ui/Badge';
 import { Skeleton } from '../ui/Skeleton';
 
-export function LocationDetail({ location }: { location: LocationOverview | undefined }) {
+export const LocationDetail = memo(function LocationDetail({ location }: { location: LocationOverview | undefined }) {
   if (!location) {
     return (
       <div className="glass-card chart-card location-detail">
@@ -40,4 +41,4 @@ export function LocationDetail({ location }: { location: LocationOverview | unde
       </div>
     </div>
   );
-}
+});
