@@ -31,8 +31,9 @@ export function CampusMap({ locations, selectedId, onSelect }: CampusMapProps) {
     <div className="app-map">
       <MapContainer center={CAMPUS_CENTER} zoom={ZOOM} scrollWheelZoom>
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          className="map-tiles-dark"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <FlyToSelection location={selected} />
         {locations.map((loc) => {
