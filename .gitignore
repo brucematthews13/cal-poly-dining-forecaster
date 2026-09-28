@@ -11,6 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
+.env.*
+!.env.example
 
 # SQLite runtime data (regenerate with `npm run seed`)
 server/data/*.db

@@ -92,6 +92,14 @@ runs on http://localhost:3001.
 Other scripts: `npm run build` (production build), `npm run lint` (oxlint),
 `npm run preview` (preview a production build).
 
+### Deploying
+
+Locally, the frontend talks to the API through Vite's dev proxy (relative
+`/api` calls). In production the frontend and backend are typically deployed
+to two different hosts, so set `VITE_API_URL` (see `.env.example`) to the
+deployed API's full URL — e.g. `https://your-api.onrender.com/api` — before
+running `npm run build`.
+
 ## API
 
 | Route | Description |

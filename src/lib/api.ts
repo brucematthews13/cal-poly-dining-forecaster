@@ -1,7 +1,10 @@
 // API client for Cal Poly Dining Forecaster
 import type { LocationOverview, HourlyForecast, WeeklyTrend, BestTimeResult, CrowdReport } from '../types';
 
-const API_BASE = '/api';
+// In dev, Vite's proxy forwards relative '/api' calls to the local backend.
+// In production the frontend and backend are on separate hosts, so set
+// VITE_API_URL (e.g. https://your-api.onrender.com/api) at build time.
+const API_BASE = import.meta.env.VITE_API_URL ?? '/api';
 
 async function fetchJSON<T>(url: string): Promise<T> {
   const res = await fetch(`${API_BASE}${url}`);
