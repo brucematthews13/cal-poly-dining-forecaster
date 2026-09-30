@@ -44,6 +44,8 @@ export interface HourlyForecast {
   predicted_level: number;
   confidence: number;
   label: string; // '7 AM', '12 PM', etc.
+  sample_count: number; // total samples (synthetic + real) baked into this hour's average
+  real_sample_count: number; // of those, how many came from real crowd reports
 }
 
 export interface WeeklyTrend {

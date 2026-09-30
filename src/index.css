@@ -646,6 +646,15 @@ h4 { font-size: 1.1rem; }
   letter-spacing: 0.5px;
 }
 
+.chart-data-badge {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.68rem;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--text-muted);
+}
+
 .chart-empty {
   display: flex;
   align-items: center;
@@ -661,6 +670,11 @@ h4 { font-size: 1.1rem; }
   flex-direction: column;
   gap: 2px;
   font-size: 0.78rem;
+}
+
+.chart-tooltip-source {
+  color: var(--text-muted);
+  font-size: 0.7rem;
 }
 
 .day-tabs {

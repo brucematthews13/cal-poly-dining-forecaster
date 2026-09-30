@@ -24,7 +24,8 @@ function getForecast(locationId, dayOfWeek) {
     ORDER BY hour
   `).all(locationId, dayOfWeek);
 
-  // Check for recent crowdsource data (last 7 days)
+  // Check for recent crowdsource data (last 7 days) — this is what actively
+  // shifts the forecast (30% blend weight).
   const recentCrowd = db.prepare(`
     SELECT hour, AVG(level) as avg_level, COUNT(*) as cnt
     FROM busyness_records
@@ -33,9 +34,23 @@ function getForecast(locationId, dayOfWeek) {
     GROUP BY hour
   `).all(locationId, dayOfWeek);
 
+  // All-time crowdsource reports for this slot — these are already permanently
+  // folded into busyness_averages, so this is just for disclosing how much of
+  // that average is real vs. the original synthetic seed data.
+  const totalCrowd = db.prepare(`
+    SELECT hour, COUNT(*) as cnt
+    FROM busyness_records
+    WHERE location_id = ? AND day_of_week = ? AND source = 'crowdsource'
+    GROUP BY hour
+  `).all(locationId, dayOfWeek);
+
   const crowdMap = {};
   for (const r of recentCrowd) {
     crowdMap[r.hour] = r;
+  }
+  const realCountMap = {};
+  for (const r of totalCrowd) {
+    realCountMap[r.hour] = r.cnt;
   }
 
   return averages.map(avg => {
@@ -54,6 +69,8 @@ function getForecast(locationId, dayOfWeek) {
       predicted_level: Math.round(predicted * 10) / 10,
       confidence: Math.round(confidence * 100) / 100,
       label: formatHour(avg.hour),
+      sample_count: avg.sample_count,
+      real_sample_count: realCountMap[avg.hour] ?? 0,
     };
   });
 }

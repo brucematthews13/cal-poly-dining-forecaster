@@ -19,6 +19,11 @@ function ChartTooltip({ active, payload }: { active?: boolean; payload?: { paylo
       <strong>{point.label}</strong>
       <span>Level {point.predicted_level.toFixed(1)}</span>
       <span>{Math.round(point.confidence * 100)}% confidence</span>
+      <span className="chart-tooltip-source">
+        {point.real_sample_count > 0
+          ? `${point.real_sample_count} of ${point.sample_count} samples are real reports`
+          : `Simulated (0 real reports yet)`}
+      </span>
     </div>
   );
 }
@@ -26,11 +31,21 @@ function ChartTooltip({ active, payload }: { active?: boolean; payload?: { paylo
 export const HourlyForecastChart = memo(function HourlyForecastChart({ forecast, loading, selectedDay, onDayChange }: HourlyForecastChartProps) {
   const now = new Date();
   const currentHourLabel = forecast.find((f) => f.hour === now.getHours())?.label;
+  const realReportCount = forecast.reduce((sum, f) => sum + f.real_sample_count, 0);
 
   return (
     <div className="glass-card chart-card">
       <div className="chart-card-header">
-        <h4>Hourly Forecast</h4>
+        <div>
+          <h4>Hourly Forecast</h4>
+          {!loading && forecast.length > 0 && (
+            <span className="chart-data-badge">
+              {realReportCount > 0
+                ? `📊 Includes ${realReportCount} real report${realReportCount === 1 ? '' : 's'}`
+                : '🧪 Simulated data — no real reports yet'}
+            </span>
+          )}
+        </div>
         <div className="day-tabs" role="tablist" aria-label="Day of week">
           {DAY_NAMES_SHORT.map((d, i) => (
             <button
