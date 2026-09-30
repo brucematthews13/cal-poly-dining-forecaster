@@ -16,7 +16,7 @@ export function Header({ onReportClick }: HeaderProps) {
   return (
     <header className="app-header">
       <div className="app-title">
-        <span className="app-title-emoji">🍽️</span>
+        <img src="/logo.png" alt="Campus Dining logo" className="app-title-logo" />
         <div>
           <h1>Cal Poly Dining Forecaster</h1>
           <span className="app-subtitle">Predict busy times across campus</span>

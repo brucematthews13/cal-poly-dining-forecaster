@@ -465,8 +465,12 @@ h4 { font-size: 1.1rem; }
   gap: var(--space-sm);
 }
 
-.app-title-emoji {
-  font-size: 1.75rem;
+.app-title-logo {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
 .app-title h1 {
