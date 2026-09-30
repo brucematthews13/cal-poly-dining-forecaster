@@ -1,4 +1,5 @@
 const { getDb } = require('../db');
+const { getCampusNow } = require('../lib/time');
 
 const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -119,9 +120,7 @@ function getBestTime(locationId, dayOfWeek) {
  */
 function getCurrentLevel(locationId) {
   const db = getDb();
-  const now = new Date();
-  const dayOfWeek = now.getDay();
-  const hour = now.getHours();
+  const { dayOfWeek, hour } = getCampusNow();
 
   // Check for very recent crowdsource reports (last 30 minutes)
   const recent = db.prepare(`

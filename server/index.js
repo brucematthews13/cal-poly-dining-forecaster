@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const { getDb } = require('./db');
 const { seed } = require('./scripts/seed');
+const { getCampusNow } = require('./lib/time');
 const { getForecast, getWeeklyTrend, getBestTime, getCurrentLevel } = require('./services/forecast');
 
 const app = express();
@@ -38,9 +39,8 @@ function getWaitMinutes(level) {
 }
 
 function isLocationOpen(db, locationId) {
-  const now = new Date();
-  const dayOfWeek = now.getDay();
-  const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+  const { dayOfWeek, hour, minute } = getCampusNow();
+  const currentTime = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
 
   const hours = db.prepare(`
     SELECT open_time, close_time FROM operating_hours
@@ -79,7 +79,7 @@ app.get('/api/locations/:id', (req, res) => {
 
 // GET /api/locations/:id/forecast?day=0-6 — Hourly forecast
 app.get('/api/locations/:id/forecast', (req, res) => {
-  const dayOfWeek = parseInt(req.query.day) ?? new Date().getDay();
+  const dayOfWeek = parseInt(req.query.day) ?? getCampusNow().dayOfWeek;
   const forecast = getForecast(parseInt(req.params.id), dayOfWeek);
   res.json(forecast);
 });
@@ -92,7 +92,7 @@ app.get('/api/locations/:id/weekly', (req, res) => {
 
 // GET /api/locations/:id/best-time?day=0-6 — Best time recommendations
 app.get('/api/locations/:id/best-time', (req, res) => {
-  const dayOfWeek = parseInt(req.query.day) ?? new Date().getDay();
+  const dayOfWeek = parseInt(req.query.day) ?? getCampusNow().dayOfWeek;
   const result = getBestTime(parseInt(req.params.id), dayOfWeek);
   res.json(result);
 });
@@ -101,8 +101,7 @@ app.get('/api/locations/:id/best-time', (req, res) => {
 app.get('/api/overview', (req, res) => {
   const db = getDb();
   const locations = db.prepare('SELECT * FROM locations ORDER BY id').all();
-  const now = new Date();
-  const dayOfWeek = now.getDay();
+  const { dayOfWeek } = getCampusNow();
 
   const overview = locations.map(loc => {
     const currentLevel = getCurrentLevel(loc.id);
@@ -155,11 +154,12 @@ app.post('/api/report', (req, res) => {
 
   const db = getDb();
   const now = new Date();
+  const { dayOfWeek, hour, minute } = getCampusNow(now);
 
   db.prepare(`
     INSERT INTO busyness_records (location_id, timestamp, day_of_week, hour, minute, level, source)
     VALUES (?, ?, ?, ?, ?, ?, 'crowdsource')
-  `).run(location_id, now.toISOString(), now.getDay(), now.getHours(), now.getMinutes(), Math.round(level));
+  `).run(location_id, now.toISOString(), dayOfWeek, hour, minute, Math.round(level));
 
   // Re-aggregate averages for this location + day + hour
   db.prepare(`
@@ -168,7 +168,7 @@ app.post('/api/report', (req, res) => {
     FROM busyness_records
     WHERE location_id = ? AND day_of_week = ? AND hour = ?
     GROUP BY location_id, day_of_week, hour
-  `).run(location_id, now.getDay(), now.getHours());
+  `).run(location_id, dayOfWeek, hour);
 
   res.json({ success: true, message: 'Thanks for helping fellow Mustangs! 🐴' });
 });
