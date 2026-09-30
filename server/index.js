@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { getDb } = require('./db');
+const { seed } = require('./scripts/seed');
 const { getForecast, getWeeklyTrend, getBestTime, getCurrentLevel } = require('./services/forecast');
 
 const app = express();
@@ -8,6 +9,14 @@ const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
+
+// Hosts with an ephemeral filesystem (e.g. Render's free tier) wipe the
+// SQLite file on every restart, so reseed automatically if it's empty.
+const { cnt: locationCount } = getDb().prepare('SELECT COUNT(*) as cnt FROM locations').get();
+if (locationCount === 0) {
+  console.log('No data found — seeding database...');
+  seed();
+}
 
 // ============ Rate limiting (simple in-memory) ============
 const reportLimits = new Map();
