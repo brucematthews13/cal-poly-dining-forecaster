@@ -5,6 +5,9 @@ locations are, so you can time your meals to skip the line. Browse an
 interactive campus map, see hourly/weekly busyness forecasts per location,
 and help improve the predictions by reporting what you see in line right now.
 
+**🔗 Live demo:** https://cal-poly-dining-forecaster.vercel.app
+*(the free-tier API may take 30–60s to wake up after inactivity — give it a moment on first load)*
+
 ## Features
 
 - **Interactive campus map** — all 11 real Cal Poly dining locations plotted
