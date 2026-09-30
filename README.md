@@ -121,3 +121,7 @@ running `npm run build`.
 See the "Next steps" list from development notes for the prioritized plan —
 in short: real historical data or a live occupancy signal, automated tests,
 a deployed live demo, and persistence beyond a local SQLite file.
+
+## Author
+
+Bruce Matthews — [brucematthews13.github.io](https://brucematthews13.github.io/index.html)
